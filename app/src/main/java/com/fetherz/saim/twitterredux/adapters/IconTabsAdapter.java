@@ -5,11 +5,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
-public class HomeTabAdapter extends FragmentPagerAdapter{
+public class IconTabsAdapter extends FragmentPagerAdapter{
 
     private List<Fragment> fragmentList;
 
-    public HomeTabAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+    public IconTabsAdapter(FragmentManager fm, List<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
     }

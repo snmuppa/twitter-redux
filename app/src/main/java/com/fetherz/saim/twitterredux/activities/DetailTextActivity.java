@@ -129,7 +129,7 @@ public class DetailTextActivity extends BaseActivity {
                 mTvRetweetedUserName.setVisibility(View.VISIBLE);
                 mIvRetweeted.setVisibility(View.VISIBLE);
 
-                mTvRetweetedUserName.setText(String.format("%s%s %s", "@", mTweet.getRetweetUser().getScreenName(), RETWEETED_TEXT));
+                mTvRetweetedUserName.setText(String.format("%s %s", mTweet.getRetweetUser().getScreenName(), RETWEETED_TEXT));
             }else {
                 mTvRetweetedUserName.setVisibility(View.GONE);
                 mIvRetweeted.setVisibility(View.GONE);

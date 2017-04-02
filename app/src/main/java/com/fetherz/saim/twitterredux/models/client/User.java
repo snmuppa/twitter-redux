@@ -1,5 +1,7 @@
 package com.fetherz.saim.twitterredux.models.client;
 
+import com.fetherz.saim.twitterredux.utils.GenericUtil;
+
 import org.parceler.Parcel;
 
 /**
@@ -14,6 +16,17 @@ public class User {
         private String name;
         private String screenName;
         private String profileImageUrl;
+        private String location;
+        private String description;
+        private int followersCount;
+        private int friendsCount;
+        private int listedCount;
+        private String createdAt;
+        private int favouritesCount;
+        private boolean verified;
+        private int statusesCount;
+        private String profileBackgroundColor;
+        private String profileBackgroundImageUrl;
 
         public UserBuilder(long userId){
             this.userId = userId;
@@ -39,8 +52,65 @@ public class User {
             return this;
         }
 
+        public UserBuilder setLocation(String location) {
+            this.location = location;
+            return this;
+        }
+
+        public UserBuilder setDescription(String description){
+            this.description = description;
+            return  this;
+        }
+
+        public UserBuilder setFollowersCount(int followersCount) {
+            this.followersCount = followersCount;
+            return this;
+        }
+
+        public UserBuilder setFriendsCount(int friendsCount) {
+            this.friendsCount = friendsCount;
+            return this;
+        }
+
+        public UserBuilder setListedCount(int listedCount) {
+            this.listedCount = listedCount;
+            return this;
+        }
+
+        public UserBuilder setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public UserBuilder setFavouritesCount(int favouritesCount) {
+            this.favouritesCount = favouritesCount;
+            return this;
+        }
+
+        public UserBuilder setVerified(boolean verified) {
+            this.verified = verified;
+            return this;
+        }
+
+        public UserBuilder setStatusesCount(int statusesCount) {
+            this.statusesCount = statusesCount;
+            return this;
+        }
+
+        public UserBuilder setProfileBackgroundColor(String profileBackgroundColor) {
+            this.profileBackgroundColor = profileBackgroundColor;
+            return this;
+        }
+
+        public UserBuilder setProfileBackgroundImageUrl(String profileBackgroundImageUrl) {
+            this.profileBackgroundImageUrl = profileBackgroundImageUrl;
+            return this;
+        }
+
         public User createUser() {
-            return new User(userId, userIdString, name, screenName, profileImageUrl);
+            return new User(userId, userIdString, name, screenName, profileImageUrl, location, description, followersCount,
+                    friendsCount, listedCount, createdAt, favouritesCount, verified, statusesCount, profileBackgroundColor,
+                    profileBackgroundImageUrl);
         }
     }
 
@@ -54,14 +124,49 @@ public class User {
 
     String profileImageUrl;
 
+    String location;
+
+    String description;
+
+    int followersCount;
+
+    int friendsCount;
+
+    int listedCount;
+
+    String createdAt;
+
+    int favouritesCount;
+
+    boolean verified;
+
+    int statusesCount;
+
+    String profileBackgroundColor;
+
+    String profileBackgroundImageUrl;
+
     public User() { }
 
-    private User(long userId, String userIdString, String name, String screenName, String profileImageUrl) {
+    private User(long userId, String userIdString, String name, String screenName, String profileImageUrl,
+                 String location, String description, int followersCount, int friendsCount, int listedCount, String createdAt,
+                 int favouritesCount, boolean verified, int statusesCount, String profileBackgroundColor, String profileBackgroundImageUrl) {
         this.userId = userId;
         this.userIdString = userIdString;
         this.name = name;
         this.screenName = screenName;
         this.profileImageUrl = profileImageUrl;
+        this.location = location;
+        this.description = description;
+        this.followersCount = followersCount;
+        this.friendsCount = friendsCount;
+        this.listedCount = listedCount;
+        this.createdAt = createdAt;
+        this.favouritesCount = favouritesCount;
+        this.verified = verified;
+        this.statusesCount = statusesCount;
+        this.profileBackgroundColor = profileBackgroundColor;
+        this.profileBackgroundImageUrl =profileBackgroundImageUrl;
     }
 
     public long getUserId() {
@@ -84,6 +189,50 @@ public class User {
         return profileImageUrl;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public int getFriendsCount() {
+        return friendsCount;
+    }
+
+    public int getListedCount() {
+        return listedCount;
+    }
+
+    public String getCreatedAt() {
+        return GenericUtil.getRelativeTimeAgo(createdAt);
+    }
+
+    public int getFavouritesCount() {
+        return favouritesCount;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public int getStatusesCount() {
+        return statusesCount;
+    }
+
+    public String getProfileBackgroundColor() {
+        return profileBackgroundColor;
+    }
+
+    public String getProfileBackgroundImageUrl() {
+        return profileBackgroundImageUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -92,6 +241,17 @@ public class User {
                 ", name='" + name + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", followersCount=" + followersCount +
+                ", friendsCount=" + friendsCount +
+                ", listedCount=" + listedCount +
+                ", createdAt='" + createdAt + '\'' +
+                ", favouritesCount=" + favouritesCount +
+                ", verified=" + verified +
+                ", statusesCount=" + statusesCount +
+                ", profileBackgroundColor='" + profileBackgroundColor + '\'' +
+                ", profileBackgroundImageUrl='" + profileBackgroundImageUrl + '\'' +
                 '}';
     }
 }

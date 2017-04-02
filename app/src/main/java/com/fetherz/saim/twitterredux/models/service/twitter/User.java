@@ -12,6 +12,17 @@ public class User {
     final String USER_NAME = "name";
     final String USER_SCREEN_NAME = "screen_name";
     final String PROFILE_IMAGE_URL = "profile_image_url";
+    final String USER_LOCATION = "location";
+    final String USER_DESCRIPTION = "description";
+    final String USER_FOLLOWER_COUNT = "followers_count";
+    final String USER_LISTED_COUNT = "listed_count";
+    final String USER_FRIENDS_COUNT = "friends_count";
+    final String USER_CREATED_AT = "created_at";
+    final String USER_FAVORITES_COUNT = "favourites_count";
+    final String USER_VERIFIED = "verified";
+    final String USER_STATUSES_COUNT = "statuses_count";
+    final String USER_PROFILE_BACKGROUND_COLOR = "profile_background_color";
+    final String USER_PROFILE_BACKGROUND_IMAGE_URL = "profile_banner_url"; // TODO: change the naming to say banner url all over
 
     @SerializedName(USER_ID)
     long userId;
@@ -27,6 +38,40 @@ public class User {
 
     @SerializedName(PROFILE_IMAGE_URL)
     private String profileImageUrl;
+
+    @SerializedName(USER_LOCATION)
+    private String location;
+
+    @SerializedName(USER_DESCRIPTION)
+    private String description;
+
+    @SerializedName(USER_FOLLOWER_COUNT)
+    private int followersCount;
+
+    @SerializedName(USER_FRIENDS_COUNT)
+    private int friendsCount;
+
+    @SerializedName(USER_LISTED_COUNT)
+    private int listedCount;
+
+    @SerializedName(USER_CREATED_AT)
+    private String createdAt;
+
+    @SerializedName(USER_FAVORITES_COUNT)
+    private int favouritesCount;
+
+    @SerializedName(USER_VERIFIED)
+    private boolean verified;
+
+    @SerializedName(USER_STATUSES_COUNT)
+    private int statusesCount;
+
+    @SerializedName(USER_PROFILE_BACKGROUND_COLOR)
+    private String profileBackgroundColor;
+
+    @SerializedName(USER_PROFILE_BACKGROUND_IMAGE_URL)
+    private String profileBackgroundImageUrl;
+
 
     public long getUserId() {
         return userId;
@@ -48,6 +93,50 @@ public class User {
         return profileImageUrl;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public int getFriendsCount() {
+        return friendsCount;
+    }
+
+    public int getListedCount() {
+        return listedCount;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public int getFavouritesCount() {
+        return favouritesCount;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public int getStatusesCount() {
+        return statusesCount;
+    }
+
+    public String getProfileBackgroundColor() {
+        return profileBackgroundColor;
+    }
+
+    public String getProfileBackgroundImageUrl() {
+        return profileBackgroundImageUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -56,6 +145,17 @@ public class User {
                 ", name='" + name + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", followersCount=" + followersCount +
+                ", friendsCount=" + friendsCount +
+                ", listedCount=" + listedCount +
+                ", createdAt='" + createdAt + '\'' +
+                ", favouritesCount=" + favouritesCount +
+                ", verified=" + verified +
+                ", statusesCount=" + statusesCount +
+                ", profileBackgroundColor='" + profileBackgroundColor + '\'' +
+                ", profileBackgroundImageUrl='" + profileBackgroundImageUrl + '\'' +
                 '}';
     }
 }

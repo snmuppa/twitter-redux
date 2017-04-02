@@ -18,7 +18,7 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhite"
+            android:background="@color/colorTransparent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -35,7 +35,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tlHomeTabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 app:tabMode="scrollable"
                 android:background="@color/colorWhite"

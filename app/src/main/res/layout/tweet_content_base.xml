@@ -55,6 +55,17 @@
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/ivVerified"
+        android:layout_width="@dimen/ic_small"
+        android:layout_height="@dimen/ic_small"
+        android:src="@drawable/ic_verified"
+        android:layout_toRightOf="@+id/tvUserName"
+        android:layout_marginLeft="@dimen/ic_margin_small"
+        android:layout_alignBottom="@+id/tvUserName"
+        tools:src="@drawable/ic_verified"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
@@ -87,8 +98,8 @@
 
     <ImageView
         android:id="@+id/ivBrandIcon"
-        android:layout_width="@dimen/ic_medium"
-        android:layout_height="@dimen/ic_medium"
+        android:layout_width="@dimen/ic_small"
+        android:layout_height="@dimen/ic_small"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/fab_margin"

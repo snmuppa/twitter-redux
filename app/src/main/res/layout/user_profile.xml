@@ -15,7 +15,6 @@
             android:id="@+id/ivBackDrop"
             android:layout_width="match_parent"
             android:layout_height="@dimen/user_profile_backdrop_height"
-            android:background="@color/colorWindowBackground"
             android:fitsSystemWindows="true"
             tools:src="@drawable/twitter_backdrop_image"
             android:scaleType="centerCrop" />
@@ -26,15 +25,13 @@
             android:layout_height="@dimen/profile_image_height_small"
             android:layout_gravity="left|bottom"
             android:layout_marginLeft="@dimen/ic_margin_large"
-            android:padding="@dimen/ic_margin_medium"
             app:cardCornerRadius="@dimen/card_radius">
 
             <com.fetherz.saim.twitterredux.utils.DynamicHeightImageView
                 android:id="@+id/ivUserProfilePicture"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:src="@drawable/twitter_profile_image"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent"
+                tools:src="@drawable/ic_photo"/>
 
         </android.support.v7.widget.CardView>
     </FrameLayout>
@@ -49,6 +46,17 @@
         android:textColor="@android:color/black"
         tools:text="@string/droid_user"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ivVerified"
+        android:layout_width="@dimen/ic_small"
+        android:layout_height="@dimen/ic_small"
+        android:src="@drawable/ic_verified"
+        android:layout_toRightOf="@+id/tvUserName"
+        android:layout_marginLeft="@dimen/ic_margin_small"
+        android:layout_alignBottom="@+id/tvUserName"
+        tools:src="@drawable/ic_verified"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tvUserScreenName"

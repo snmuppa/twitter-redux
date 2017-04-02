@@ -113,6 +113,17 @@ public class TweetsUtil {
                     .setProfileImageUrl(serviceUser.getProfileImageUrl())
                     .setName(serviceUser.getName())
                     .setScreenName(serviceUser.getScreenName())
+                    .setLocation(serviceUser.getLocation())
+                    .setDescription(serviceUser.getDescription())
+                    .setFollowersCount(serviceUser.getFollowersCount())
+                    .setFriendsCount(serviceUser.getFriendsCount())
+                    .setListedCount(serviceUser.getListedCount())
+                    .setCreatedAt(serviceUser.getCreatedAt())
+                    .setFavouritesCount(serviceUser.getFavouritesCount())
+                    .setVerified(serviceUser.isVerified())
+                    .setStatusesCount(serviceUser.getStatusesCount())
+                    .setProfileBackgroundColor(serviceUser.getProfileBackgroundColor())
+                    .setProfileBackgroundImageUrl(serviceUser.getProfileBackgroundImageUrl())
                     .createUser();
         }
 

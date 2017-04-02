@@ -9,10 +9,7 @@
     </style>
 
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:background">@color/colorWhite</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:editTextColor">@color/colorPrimary</item>
-        <item name="android:drawableLeft">@drawable/ic_twitter_white</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="ToolbarPopUp" parent ="ThemeOverlay.AppCompat.Light">

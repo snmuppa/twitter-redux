@@ -3,50 +3,46 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:fitsSystemWindows="true">
+    android:id="@+id/clTimelineActivity"
+    android:background="@color/colorWhite"
+    tools:context="com.fetherz.saim.twitterredux.activities.UserProfileActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main.appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
-        android:fitsSystemWindows="true">
+        android:layout_height="300dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Light">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            android:background="@color/colorWhite"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <include layout="@layout/include_toolbar" />
 
             <include layout="@layout/user_profile" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/main.toolbar"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tlUserProfileTabs"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:tabMode="scrollable"
+                android:background="@color/colorWhite"
+                app:tabContentStart="?attr/actionBarSize" />
         </android.support.design.widget.CollapsingToolbarLayout>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            android:background="@color/colorWhite"/>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpUserProfileViews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

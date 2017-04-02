@@ -1,5 +1,8 @@
 package com.fetherz.saim.twitterredux.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.fetherz.saim.twistertwit.R;
-import com.fetherz.saim.twitterredux.adapters.HomeTabAdapter;
+import com.fetherz.saim.twitterredux.adapters.IconTabsAdapter;
 import com.fetherz.saim.twitterredux.application.TwitterApplication;
 import com.fetherz.saim.twitterredux.fragments.HomeTimelineFragment;
 import com.fetherz.saim.twitterredux.fragments.MessagesFragment;
@@ -21,8 +24,11 @@ import com.fetherz.saim.twitterredux.fragments.NotificationsFragment;
 import com.fetherz.saim.twitterredux.models.client.User;
 import com.fetherz.saim.twitterredux.models.utils.TweetsUtil;
 import com.fetherz.saim.twitterredux.services.TwitterClient;
+import com.fetherz.saim.twitterredux.utils.CircleTransform;
 import com.fetherz.saim.twitterredux.utils.LogUtil;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +62,7 @@ public class HomeActivity extends BaseActivity implements HomeTimelineFragment.O
 
     TwitterClient mTwitterClient;
 
-    HomeTabAdapter mHomeTabAdapter;
+    IconTabsAdapter mHomeTabAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +86,7 @@ public class HomeActivity extends BaseActivity implements HomeTimelineFragment.O
     }
 
     private void bindTabsToFragments() {
-        mHomeTabAdapter = new HomeTabAdapter(getSupportFragmentManager(), mFragments);
+        mHomeTabAdapter = new IconTabsAdapter(getSupportFragmentManager(), mFragments);
 
         //Bind the Adapter to the View Pager
         mVPHomeViewPager.setAdapter(mHomeTabAdapter);
@@ -168,6 +174,30 @@ public class HomeActivity extends BaseActivity implements HomeTimelineFragment.O
 
                 if (responseString != null) {
                     mCurrentUser = TweetsUtil.getUserFromJson(responseString);
+
+                    final Toolbar ab = mToolbar;
+                    Picasso.with(HomeActivity.this)
+                            .load(mCurrentUser.getProfileImageUrl())
+                            .transform(new CircleTransform())
+                            .into(new Target()
+                            {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from)
+                                {
+                                    Drawable d = new BitmapDrawable(getResources(), bitmap);
+                                    ab.setLogo(d);
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Drawable errorDrawable)
+                                {
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable)
+                                {
+                                }
+                            });
 
                     LogUtil.logD(TAG, mCurrentUser.toString());
                 }

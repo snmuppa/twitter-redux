@@ -127,7 +127,7 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 viewHolder.mTvRetweetedUserName.setVisibility(View.VISIBLE);
                 viewHolder.mIvRetweeted.setVisibility(View.VISIBLE);
 
-                viewHolder.mTvRetweetedUserName.setText(String.format("%s%s %s", "@", tweet.getRetweetUser().getScreenName(), RETWEETED_TEXT));
+                viewHolder.mTvRetweetedUserName.setText(String.format("%s %s", tweet.getRetweetUser().getScreenName(), RETWEETED_TEXT));
             }else {
                 viewHolder.mTvRetweetedUserName.setVisibility(View.GONE);
                 viewHolder.mIvRetweeted.setVisibility(View.GONE);
@@ -176,7 +176,7 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 viewHolder.mTvRetweetedUserName.setVisibility(View.VISIBLE);
                 viewHolder.mIvRetweeted.setVisibility(View.VISIBLE);
 
-                viewHolder.mTvRetweetedUserName.setText(String.format("%s%s %s", "@", tweet.getRetweetUser().getScreenName(), RETWEETED_TEXT));
+                viewHolder.mTvRetweetedUserName.setText(String.format("%s %s", tweet.getRetweetUser().getScreenName(), RETWEETED_TEXT));
             }else {
                 viewHolder.mTvRetweetedUserName.setVisibility(View.GONE);
                 viewHolder.mIvRetweeted.setVisibility(View.GONE);
@@ -224,7 +224,7 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             Picasso.with(mContext).load(tweet.getMediaUrl())
                     .transform(new RoundedCornersTransformation(10,10))
                     .placeholder(R.drawable.ic_photo)
-                    .error(R.drawable.ic_photo)
+                    .error(R.drawable.ic_camera)
                     .into(viewHolder.mIvTweetImage);
         }
     }

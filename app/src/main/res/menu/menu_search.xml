@@ -4,10 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.fetherz.saim.twitterredux.activities.HomeActivity">
 
+    <item android:id="@+id/action_profile"
+        android:orderInCategory="100"
+        android:title="@string/user_profile"
+        android:icon="@drawable/ic_twitter_white"
+        app:showAsAction="always"
+        android:gravity="top|left" />
+
     <item android:id="@+id/action_search"
         android:orderInCategory="5"
         android:title="Search"
         android:icon="@drawable/ic_search"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
+
 </menu>
