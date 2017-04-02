@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/city_night_lights"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:paddingBottom="@dimen/fab_margin"
+    android:paddingLeft="@dimen/fab_margin"
+    android:paddingRight="@dimen/fab_margin"
+    android:gravity = "bottom|center_horizontal">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTwitterLogin"
+        android:text="@string/login_twitter"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        android:drawableLeft="@drawable/ic_twitter_white"
+        android:paddingLeft="@dimen/fab_margin"
+        android:onClick="loginToRest"
+        android:layout_weight="1.0"/>
+</LinearLayout>

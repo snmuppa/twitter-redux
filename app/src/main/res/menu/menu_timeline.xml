@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.fetherz.saim.twitterredux.activities.TimelineActivity">
+    <item
+        android:id="@+id/compose_settings"
+        android:orderInCategory="100"
+        android:title="@string/compose"
+        android:icon="@drawable/ic_compose"
+        app:showAsAction="always|collapseActionView" />
+</menu>

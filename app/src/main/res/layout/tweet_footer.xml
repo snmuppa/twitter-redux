@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivReply"
+        android:layout_width="@dimen/ic_medium"
+        android:layout_height="@dimen/ic_medium"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/ic_margin_medium"
+        android:src="@drawable/ic_reply" />
+
+    <TextView
+        android:id="@+id/tvRetweets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/ic_margin_small"
+        tools:text="1000" />
+
+    <ImageView
+        android:id="@+id/ivRetweet"
+        android:layout_width="@dimen/ic_medium"
+        android:layout_height="@dimen/ic_medium"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/tvRetweets"
+        android:layout_toStartOf="@id/tvRetweets"
+        android:src="@drawable/ic_retweet" />
+
+    <TextView
+        android:id="@+id/tvFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/ic_margin_small"
+        android:layout_marginRight="@dimen/text_margin_medium"
+        tools:text="1000" />
+
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="@dimen/ic_medium"
+        android:layout_height="@dimen/ic_medium"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/tvFavorites"
+        android:layout_toStartOf="@id/tvFavorites"
+        android:src="@drawable/ic_heart_outline" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator_line_height"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/text_margin_large"
+        android:layout_below="@id/ivReply" />
+
+</RelativeLayout>

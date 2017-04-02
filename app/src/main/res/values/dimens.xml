@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_radius">6dp</dimen>
+
+    <dimen name="card_radius_large">16dp</dimen>
+
+    <dimen name="ic_small">18dp</dimen>
+    <dimen name="ic_medium">24dp</dimen>
+
+    <dimen name="ic_margin_small">4dp</dimen>
+    <dimen name="ic_margin_medium">8dp</dimen>
+    <dimen name="ic_margin_large">16dp</dimen>
+
+
+    <dimen name="profile_image_height_small">48dp</dimen>
+    <dimen name="profile_image_width_small">48dp</dimen>
+
+    <dimen name="text_margin_small">4dp</dimen>
+    <dimen name="text_margin_medium">8dp</dimen>
+    <dimen name="text_margin_large">16dp</dimen>
+
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="regular_offset">16dp</dimen>
+
+    <dimen name="separator_line_height">0.5dp</dimen>
+    <dimen name="content_intent">50dp</dimen>
+    <dimen name="user_profile_backdrop_height">120dp</dimen>
+    <dimen name="user_profile_backdrop_frame">130dp</dimen>
+</resources>

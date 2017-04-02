@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivRetweeted"
+        android:layout_width="@dimen/ic_small"
+        android:layout_height="@dimen/ic_small"
+        android:src="@drawable/ic_retweet"
+        android:layout_alignTop="@+id/tvRetweetedUserName"
+        android:layout_alignRight="@+id/cvProfilePicture"
+        android:layout_alignEnd="@+id/cvProfilePicture" />
+
+    <TextView
+        android:id="@+id/tvRetweetedUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:layout_toEndOf="@+id/cvProfilePicture"
+        android:layout_toRightOf="@+id/cvProfilePicture"
+        tools:text="@string/twitter_user" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvProfilePicture"
+        android:layout_width="@dimen/profile_image_width_small"
+        android:layout_height="@dimen/profile_image_height_small"
+        android:layout_below="@id/ivRetweeted"
+        android:layout_marginBottom="@dimen/ic_margin_medium"
+        android:layout_marginLeft="@dimen/ic_margin_medium"
+        android:layout_marginRight="@dimen/ic_margin_medium"
+        android:layout_alignTop="@+id/tvUserName"
+        app:cardCornerRadius="@dimen/card_radius">
+
+        <com.fetherz.saim.twitterredux.utils.DynamicHeightImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/ic_photo"/>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRetweetedUserName"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:layout_toEndOf="@id/cvProfilePicture"
+        android:layout_toRightOf="@id/cvProfilePicture"
+        tools:text="@string/droid_user"
+        android:ellipsize="marquee"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserName"
+        android:layout_alignLeft="@+id/tvUserName"
+        android:layout_toEndOf="@id/tvUserName"
+        android:layout_toRightOf="@id/tvUserName"
+        tools:text="@string/twitter_user" />
+
+    <TextView
+        android:id="@+id/tvTweetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvScreenName"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/cvProfilePicture"
+        android:autoLink="all"
+        android:linksClickable="true"
+        tools:text="@string/sample_tweet_text"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvRelativeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/ivBrandIcon"
+        android:layout_alignBottom="@+id/tvUserName"
+        android:text="1h 2m" />
+
+    <ImageView
+        android:id="@+id/ivBrandIcon"
+        android:layout_width="@dimen/ic_medium"
+        android:layout_height="@dimen/ic_medium"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignBottom="@+id/tvUserName"
+        android:src="@drawable/ic_twitter"/>
+
+</RelativeLayout>

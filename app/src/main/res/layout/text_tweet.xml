@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="@dimen/card_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/tweetBase"
+        layout="@layout/tweet_content_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_margin_medium"
+        android:layout_marginRight="@dimen/text_margin_medium"
+        android:layout_below="@id/tweetBase">
+        <include layout="@layout/tweet_footer"/>
+    </RelativeLayout>
+
+</RelativeLayout>

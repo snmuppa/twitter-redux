@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.fetherz.saim.twitterredux.utils.DynamicHeightImageView
+        android:id="@+id/ivProfilePicture"
+        android:layout_width="@dimen/profile_image_width_small"
+        android:layout_height="@dimen/profile_image_height_small"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/ic_margin_medium"
+        android:fitsSystemWindows="true"
+        tools:src="@drawable/twitter_profile_image" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/text_margin_medium"
+        android:layout_marginTop="@dimen/ic_margin_small"
+        android:layout_toEndOf="@+id/ivProfilePicture"
+        android:layout_toRightOf="@+id/ivProfilePicture"
+        tools:text="@string/droid_user"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ic_margin_small"
+        android:layout_alignLeft="@+id/tvUserName"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_below="@+id/tvUserName"
+        tools:text="@string/twitter_user" />
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        tools:text="1h 5m"
+        android:layout_marginRight="@dimen/text_margin_large"
+        android:layout_marginTop="@dimen/text_margin_small" />
+
+
+    <TextView
+        android:id="@+id/tvMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvUserName"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_below="@+id/tvScreenName"
+        android:layout_marginRight="@dimen/text_margin_large"
+        android:layout_marginTop="@dimen/ic_margin_medium"
+        android:text="@string/sample_tweet_text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
