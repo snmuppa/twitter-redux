@@ -118,8 +118,11 @@ public class MessagesFragment extends Fragment {
     private void populateSentMessages(long startPage) {
     }
 
-    private void populateReceivedMessages(long startPage) {
-        mTwitterClient.getReceivedDirectMessages(startPage, new TextHttpResponseHandler(){
+    private void populateReceivedMessages(long pageId) {
+
+        pageId = getTwitterPageId(pageId);
+
+        mTwitterClient.getReceivedDirectMessages(pageId, new TextHttpResponseHandler(){
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -186,6 +189,17 @@ public class MessagesFragment extends Fragment {
                 android.R.color.holo_red_light);
     }
 
+    long getTwitterPageId(long pageId) {
+        if(pageId >= 1){
+            int currSize = mMessageRecyclerViewAdapter.getItemCount();
+            if(currSize >= 1){
+                pageId = mMessages.get(currSize - 1).getId();
+            }
+        }
+
+        return pageId;
+    }
+
     /**
      * Initializes the timeline recycler view
      */
@@ -212,9 +226,9 @@ public class MessagesFragment extends Fragment {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                populateReceivedMessages(page); //twitter API page numbers start from 1
+                populateReceivedMessages(page + 1); //twitter API page numbers start from 1
 
-                populateSentMessages(page);
+                populateSentMessages(page + 1);
             }
         };
 
@@ -228,13 +242,11 @@ public class MessagesFragment extends Fragment {
         mLinearLayoutManager.scrollToPosition(0);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

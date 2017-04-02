@@ -70,8 +70,11 @@ public class NotificationsFragment extends TweetsListFragment {
     }
 
     @Override
-    protected void populateTimeline(long maxId) {
-        mTwitterClient.getMentionsTimeLine(maxId, new TextHttpResponseHandler(){
+    protected void populateTimeline(long pageId) {
+
+        pageId = getTwitterPageId(pageId);
+
+        mTwitterClient.getMentionsTimeLine(pageId, new TextHttpResponseHandler(){
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

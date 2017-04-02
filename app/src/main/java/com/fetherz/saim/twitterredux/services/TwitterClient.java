@@ -40,6 +40,7 @@ public class TwitterClient extends OAuthBaseClient {
     public static final String QUERY_PARAM_STATUS = "status";
     public static final String QUERY_PARAM_REPLY_TO_STATUS_ID = "in_reply_to_status_id";
 
+    public static final String GET_FAVORITES = "favorites/list.json";
     public static final String ADD_FAVORITE = "favorites/create.json";
     public static final String REMOVE_FAVORITE = "favorites/destroy.json";
     public static final String QUERY_PARAM_ID = "id";
@@ -57,53 +58,56 @@ public class TwitterClient extends OAuthBaseClient {
     public static final String ADD_DIRECT_MESSAGE = "direct_messages/new.json";
     private static final String QUERY_PARAM_TEXT = "text";
 
+    private static final String QUERY_PARAM_EXCLUDE_REPLIES = "exclude_replies";
+
     public TwitterClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
     }
 
-    public void getHomeTimeLine(long sinceId, AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public void getHomeTimeLine(long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler){
         String apiUrl = getApiUrl(GET_HOME_TIMELINE);
 
         RequestParams params = new RequestParams();
         params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
 
-        if(sinceId == 1){
-            params.put(QUERY_PARAM_SINCE_ID, sinceId);
+        if(pageId == 1){
+            params.put(QUERY_PARAM_SINCE_ID, pageId);
         }
         else {
-            params.put(QUERY_PARAM_MAX_ID, sinceId);
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         }
 
         getClient().get(apiUrl, params, asyncHttpResponseHandler);
     }
 
-    public void getMentionsTimeLine(long sinceId, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+    public void getMentionsTimeLine(long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler) {
         String apiUrl = getApiUrl(GET_MENTIONS_TIMELINE);
 
         RequestParams params = new RequestParams();
         params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
-        if (sinceId == 1) {
-            params.put(QUERY_PARAM_SINCE_ID, sinceId);
+        if (pageId == 1) {
+            params.put(QUERY_PARAM_SINCE_ID, pageId);
         }
         else {
-            params.put(QUERY_PARAM_MAX_ID, sinceId);
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         }
 
         getClient().get(apiUrl, params, asyncHttpResponseHandler);
     }
 
-    public void getUserTimeLine(String screenName, long sinceId, AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public void getUserTimeLine(String screenName, long pageId, boolean excludeReplies, AsyncHttpResponseHandler asyncHttpResponseHandler){
         String apiUrl = getApiUrl(GET_USER_TIMELINE);
 
         RequestParams params = new RequestParams();
         params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
         params.put(QUERY_PARAM_SCREEN_NAME, screenName);
+        params.put(QUERY_PARAM_EXCLUDE_REPLIES, excludeReplies);
 
-        if(sinceId == 1){
-            params.put(QUERY_PARAM_SINCE_ID, sinceId);
+        if(pageId == 1){
+            params.put(QUERY_PARAM_SINCE_ID, pageId);
         }
         else {
-            params.put(QUERY_PARAM_MAX_ID, sinceId);
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         }
 
         getClient().get(apiUrl, params, asyncHttpResponseHandler);
@@ -134,6 +138,21 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().post(apiUrl, null, asyncHttpResponseHandler);
     }
 
+    public void setGetFavoriteTweets(long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler){
+        String apiUrl = getApiUrl(GET_FAVORITES);
+
+        RequestParams params = new RequestParams();
+        params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
+        if (pageId == 1) {
+            params.put(QUERY_PARAM_SINCE_ID, pageId);
+        }
+        else {
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
+        }
+
+        getClient().get(apiUrl, params, asyncHttpResponseHandler);
+    }
+
     public void favoriteATweet(String tweetId, AsyncHttpResponseHandler asyncHttpResponseHandler){
         String apiUrl = getApiUrl(ADD_FAVORITE);
 
@@ -157,31 +176,31 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().get(apiUrl, null, asyncHttpResponseHandler);
     }
 
-    public void getReceivedDirectMessages(long sinceId, AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public void getReceivedDirectMessages(long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler){
         String apiUrl = getApiUrl(GET_DIRECT_MESSAGES_RECEIVED);
         RequestParams params = new RequestParams();
         params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
 
-        if(sinceId == 1){
-            params.put(QUERY_PARAM_SINCE_ID, sinceId);
+        if(pageId == 1){
+            params.put(QUERY_PARAM_SINCE_ID, pageId);
         }
         else {
-            params.put(QUERY_PARAM_MAX_ID, sinceId);
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         }
 
         getClient().get(apiUrl, params, asyncHttpResponseHandler);
     }
 
-    public void getSentDirectMessages(long sinceId, AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public void getSentDirectMessages(long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler){
         String apiUrl = getApiUrl(GET_DIRECT_MESSAGES_SENT);
         RequestParams params = new RequestParams();
         params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
 
-        if(sinceId == 1){
-            params.put(QUERY_PARAM_SINCE_ID, sinceId);
+        if(pageId == 1){
+            params.put(QUERY_PARAM_SINCE_ID, pageId);
         }
         else {
-            params.put(QUERY_PARAM_MAX_ID, sinceId);
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         }
 
         getClient().get(apiUrl, params, asyncHttpResponseHandler);

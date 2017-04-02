@@ -71,8 +71,11 @@ public class HomeTimelineFragment extends TweetsListFragment {
     }
 
     @Override
-    protected void populateTimeline(long maxId) {
-        mTwitterClient.getHomeTimeLine(maxId, new TextHttpResponseHandler(){
+    protected void populateTimeline(long pageId) {
+
+        pageId = getTwitterPageId(pageId);
+
+        mTwitterClient.getHomeTimeLine(pageId, new TextHttpResponseHandler(){
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

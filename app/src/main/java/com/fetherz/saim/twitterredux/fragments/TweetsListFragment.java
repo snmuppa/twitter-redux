@@ -111,7 +111,7 @@ public abstract class TweetsListFragment extends Fragment {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                populateTimeline(page); //twitter API page numbers start from 1
+                populateTimeline(page + 1); //twitter API page numbers start from 1
             }
         };
 
@@ -123,6 +123,17 @@ public abstract class TweetsListFragment extends Fragment {
         mTweets.addAll(0, tweets);
         mTimelineRecyclerViewAdapter.notifyItemRangeInserted(0, 1);
         mLinearLayoutManager.scrollToPosition(0);
+    }
+
+    long getTwitterPageId(long pageId) {
+        if(pageId >= 1){
+            int currSize = mTimelineRecyclerViewAdapter.getItemCount();
+            if(currSize >= 1){
+                pageId = mTweets.get(currSize - 1).getTweetId();
+            }
+        }
+
+        return pageId;
     }
 
     // Abstract method to be overridden
