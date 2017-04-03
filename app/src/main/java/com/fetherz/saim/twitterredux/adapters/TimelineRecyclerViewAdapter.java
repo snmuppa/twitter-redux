@@ -1,18 +1,28 @@
 package com.fetherz.saim.twitterredux.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fetherz.saim.twistertwit.R;
+import com.fetherz.saim.twitterredux.activities.UserProfileActivity;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
+import com.fetherz.saim.twitterredux.utils.PatternEditableBuilder;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.List;
+import java.util.regex.Pattern;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
+import static com.loopj.android.http.AsyncHttpClient.LOG_TAG;
 
 /**
  * Created by sm032858 on 3/26/17.
@@ -136,6 +146,16 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             viewHolder.mTvTweetText.setText(tweet.getText());
 
+            new PatternEditableBuilder().
+                    addPattern(Pattern.compile("\\@(\\w+)"), Color.BLUE,
+                            text -> {
+                                Intent intent = UserProfileActivity.newIntent(mContext);
+                                intent.putExtra(UserProfileActivity.EXTRA_TWEET_USER, Parcels.wrap(tweet.getUser()));
+                                mContext.startActivity(intent);
+
+                                Log.d(LOG_TAG, "Profile Image Selected, for user: " + tweet.getUser());
+                            }).into(viewHolder.mTvTweetText);
+
             //ImageLoaderImpl imageLoader = new ImageLoaderImpl();
             //imageLoader.loadImage(tweet.getUser().getProfileImageUrl(), viewHolder.mIvProfilePicture);
 
@@ -190,6 +210,16 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             viewHolder.mTvUserName.setText(tweet.getUser().getName());
 
             viewHolder.mTvTweetText.setText(tweet.getText());
+
+            new PatternEditableBuilder().
+                    addPattern(Pattern.compile("\\@(\\w+)"), Color.BLUE,
+                            text -> {
+                                Intent intent = UserProfileActivity.newIntent(mContext);
+                                intent.putExtra(UserProfileActivity.EXTRA_TWEET_USER, Parcels.wrap(tweet.getUser()));
+                                mContext.startActivity(intent);
+
+                                Log.d(LOG_TAG, "Profile Image Selected, for user: " + tweet.getUser());
+                            }).into(viewHolder.mTvTweetText);
 
             //The following is Glide library usage for image loading
             //ImageLoaderImpl imageLoader = new ImageLoaderImpl();

@@ -101,6 +101,7 @@ public class HomeActivity extends BaseActivity implements HomeTimelineFragment.O
         setTabIcons();//Set the icons to the Tabs
     }
 
+
     private void bindTabsToFragments() {
         mHomeTabAdapter = new IconTabsAdapter(getSupportFragmentManager(), mFragments);
 

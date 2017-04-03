@@ -1,5 +1,6 @@
 package com.fetherz.saim.twitterredux.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
     private OnFragmentInteractionListener mListener;
 
+    ProgressDialog pd;
+
     public HomeTimelineFragment() {
         // Required empty public constructor
 
@@ -79,6 +82,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                pd.hide();
                 LogUtil.logE(TAG, "Http request failure with status code: " + statusCode + ". " + throwable.getMessage(), throwable);
             }
 
@@ -98,6 +102,8 @@ public class HomeTimelineFragment extends TweetsListFragment {
                     // Now we call setRefreshing(false) to signal refresh has finished
                     mSwipeContainer.setRefreshing(false);
 
+                    pd.hide();
+
                     LogUtil.logD(TAG, mTweets.toString());
                 }
             }
@@ -115,6 +121,12 @@ public class HomeTimelineFragment extends TweetsListFragment {
         setTimelineRecyclerView();
 
         setSwipeRefreshContainer();
+
+        pd = new ProgressDialog(this.getContext());
+        pd.setTitle("Loading...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.show();
 
         populateTimeline(START_PAGE);
 
