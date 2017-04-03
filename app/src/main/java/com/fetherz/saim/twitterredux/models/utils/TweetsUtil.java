@@ -1,6 +1,7 @@
 package com.fetherz.saim.twitterredux.models.utils;
 
 import com.fetherz.saim.twitterredux.database.utils.DBFlowExclusionStrategy;
+import com.fetherz.saim.twitterredux.models.client.User;
 import com.fetherz.saim.twitterredux.models.service.twitter.Message;
 import com.fetherz.saim.twitterredux.utils.JsonHelper;
 import com.google.gson.ExclusionStrategy;
@@ -168,5 +169,30 @@ public class TweetsUtil {
         }
 
         return null;
+    }
+
+    public static List<User> getUsersFromJson(String jsonResponseString) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setExclusionStrategies(new ExclusionStrategy[]{new DBFlowExclusionStrategy()});
+
+        Gson gson = gsonBuilder.create();
+        List<com.fetherz.saim.twitterredux.models.service.twitter.User> serviceUsers;
+
+        serviceUsers = gson.fromJson(jsonResponseString,
+                new TypeToken<List<com.fetherz.saim.twitterredux.models.service.twitter.User>>(){}.getType());
+
+        return transposeServiceUsersToClientUsers(serviceUsers);
+    }
+
+    public static List<User> transposeServiceUsersToClientUsers(List<com.fetherz.saim.twitterredux.models.service.twitter.User> serviceUsers) {
+        List<com.fetherz.saim.twitterredux.models.client.User> clientUsers = new ArrayList<>();
+
+        if(serviceUsers != null) {
+            for (com.fetherz.saim.twitterredux.models.service.twitter.User serviceUser: serviceUsers) {
+                clientUsers.add(transposeServiceUserToClientUser(serviceUser));
+            }
+        }
+
+        return clientUsers;
     }
 }

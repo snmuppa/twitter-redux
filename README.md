@@ -2,7 +2,7 @@
 
 **Twitter Redux** is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **X** hours spent in total
+Time spent: **25** hours spent in total
 
 ## User Stories
 
@@ -21,7 +21,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-* [] User can view following / followers list through the profile
+* [X] User can view following / followers list through the profile
 * [x] Implements robust error handling, [check if internet is available](http://guides.codepath.com/android/Sending-and-Managing-Network-Requests#checking-for-network-connectivity), handle error cases, network failures
 * [x] When a network request is sent, user sees an [indeterminate progress indicator](http://guides.codepath.com/android/Handling-ProgressBars#progress-within-actionbar)
 * [x] User can **"reply" to any tweet on their home timeline**

@@ -32,14 +32,17 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name="com.fetherz.saim.twitterredux.activities.TimelineActivity"
-            android:parentActivityName="com.fetherz.saim.twitterredux.activities.HomeActivity"/>
+        <activity
+            android:name="com.fetherz.saim.twitterredux.activities.TimelineActivity"
+            android:parentActivityName="com.fetherz.saim.twitterredux.activities.HomeActivity" />
         <activity
             android:name="com.fetherz.saim.twitterredux.activities.DetailActivity"
             android:parentActivityName="com.fetherz.saim.twitterredux.activities.HomeActivity" />
-        <activity android:name="com.fetherz.saim.twitterredux.activities.UserProfileActivity"
-            android:parentActivityName="com.fetherz.saim.twitterredux.activities.HomeActivity"/>
-        <activity android:name="com.fetherz.saim.twitterredux.activities.HomeActivity"></activity>
+        <activity
+            android:name="com.fetherz.saim.twitterredux.activities.UserProfileActivity"
+            android:parentActivityName="com.fetherz.saim.twitterredux.activities.HomeActivity" />
+        <activity android:name="com.fetherz.saim.twitterredux.activities.HomeActivity" />
+        <activity android:name="com.fetherz.saim.twitterredux.activities.FollowActivity"></activity>
     </application>
 
 </manifest>

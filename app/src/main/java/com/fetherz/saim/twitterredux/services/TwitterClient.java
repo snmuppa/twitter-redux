@@ -63,6 +63,13 @@ public class TwitterClient extends OAuthBaseClient {
     private static final String QUERY_PARAM_SEARCH = "q";
     private static final String GET_SEARCH_URL = "search/tweets.json";
 
+    private static final String GET_FOLLOWERS_LIST = "followers/list.json";
+    private static final String GET_FRIENDS_LIST = "friends/list.json";
+
+    private static final String QUERY_PARAM_SKIP_STATUS = "skip_status";
+    private static final String QUERY_PARAM_CURSOR = "cursor";
+
+
     public TwitterClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
     }
@@ -135,6 +142,26 @@ public class TwitterClient extends OAuthBaseClient {
         else
             params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         getClient().get(api_url, params, asyncHttpResponseHandler);
+    }
+
+    public void getFollowers(String screenName, long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+        String apiUrl = getApiUrl(GET_FOLLOWERS_LIST);
+        RequestParams params = new RequestParams();
+        params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
+        params.put(screenName, screenName);
+        params.put(QUERY_PARAM_SKIP_STATUS, "true");
+        params.put(QUERY_PARAM_CURSOR, pageId);
+        getClient().get(apiUrl, params, asyncHttpResponseHandler);
+    }
+
+    public void getFollowing(String screenName, long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+        String apiUrl = getApiUrl(GET_FRIENDS_LIST);
+        RequestParams params = new RequestParams();
+        params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
+        params.put(screenName, screenName);
+        params.put(QUERY_PARAM_SKIP_STATUS, "true");
+        params.put(QUERY_PARAM_CURSOR, pageId);
+        getClient().get(apiUrl, params, asyncHttpResponseHandler);
     }
 
     public void replyToStatus(String text, String replyToStatusId, AsyncHttpResponseHandler asyncHttpResponseHandler){

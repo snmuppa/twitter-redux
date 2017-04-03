@@ -37,6 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
@@ -219,5 +220,21 @@ MediaFragment.OnFragmentInteractionListener, LikesFragment.OnFragmentInteraction
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @OnClick(R.id.tvFollowersCount)
+    void onFollowersClick(View view) {
+        Intent intent = FollowActivity.newIntent(UserProfileActivity.this);
+        intent.putExtra(FollowActivity.EXTRA_SCREEN_NAME, mSelectedUser.getScreenName());
+        intent.putExtra(FollowActivity.EXTRA_FOLLOW_TYPE, FollowActivity.FOLLOWERS_TYPE);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tvFollowingCount)
+    void onFriendsClick(View view) {
+        Intent intent = FollowActivity.newIntent(UserProfileActivity.this);
+        intent.putExtra(FollowActivity.EXTRA_SCREEN_NAME, mSelectedUser.getScreenName());
+        intent.putExtra(FollowActivity.EXTRA_FOLLOW_TYPE, FollowActivity.FOLLOWING_TYPE);
+        startActivity(intent);
     }
 }
