@@ -151,6 +151,13 @@ public class HomeTimelineFragment extends TweetsListFragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefreshTweets(Tweet tweet) {
+        mTweets.add(0, tweet);
+        mTimelineRecyclerViewAdapter.notifyItemRangeInserted(0, 1);
+        mLinearLayoutManager.scrollToPosition(0);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

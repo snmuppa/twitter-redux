@@ -23,6 +23,7 @@ public class User {
     final String USER_STATUSES_COUNT = "statuses_count";
     final String USER_PROFILE_BACKGROUND_COLOR = "profile_background_color";
     final String USER_PROFILE_BACKGROUND_IMAGE_URL = "profile_banner_url"; // TODO: change the naming to say banner url all over
+    final String USER_FOLLOWING = "following";
 
     @SerializedName(USER_ID)
     long userId;
@@ -71,6 +72,9 @@ public class User {
 
     @SerializedName(USER_PROFILE_BACKGROUND_IMAGE_URL)
     private String profileBackgroundImageUrl;
+
+    @SerializedName(USER_FOLLOWING)
+    private boolean userFollowing;
 
 
     public long getUserId() {
@@ -137,10 +141,32 @@ public class User {
         return profileBackgroundImageUrl;
     }
 
+    public boolean getUserFollowing()
+    {
+        return userFollowing;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "USER_ID='" + USER_ID + '\'' +
+                ", USER_ID_STRING='" + USER_ID_STRING + '\'' +
+                ", USER_NAME='" + USER_NAME + '\'' +
+                ", USER_SCREEN_NAME='" + USER_SCREEN_NAME + '\'' +
+                ", PROFILE_IMAGE_URL='" + PROFILE_IMAGE_URL + '\'' +
+                ", USER_LOCATION='" + USER_LOCATION + '\'' +
+                ", USER_DESCRIPTION='" + USER_DESCRIPTION + '\'' +
+                ", USER_FOLLOWER_COUNT='" + USER_FOLLOWER_COUNT + '\'' +
+                ", USER_LISTED_COUNT='" + USER_LISTED_COUNT + '\'' +
+                ", USER_FRIENDS_COUNT='" + USER_FRIENDS_COUNT + '\'' +
+                ", USER_CREATED_AT='" + USER_CREATED_AT + '\'' +
+                ", USER_FAVORITES_COUNT='" + USER_FAVORITES_COUNT + '\'' +
+                ", USER_VERIFIED='" + USER_VERIFIED + '\'' +
+                ", USER_STATUSES_COUNT='" + USER_STATUSES_COUNT + '\'' +
+                ", USER_PROFILE_BACKGROUND_COLOR='" + USER_PROFILE_BACKGROUND_COLOR + '\'' +
+                ", USER_PROFILE_BACKGROUND_IMAGE_URL='" + USER_PROFILE_BACKGROUND_IMAGE_URL + '\'' +
+                ", USER_FOLLOWING='" + USER_FOLLOWING + '\'' +
+                ", userId=" + userId +
                 ", userIdString='" + userIdString + '\'' +
                 ", name='" + name + '\'' +
                 ", screenName='" + screenName + '\'' +
@@ -156,6 +182,7 @@ public class User {
                 ", statusesCount=" + statusesCount +
                 ", profileBackgroundColor='" + profileBackgroundColor + '\'' +
                 ", profileBackgroundImageUrl='" + profileBackgroundImageUrl + '\'' +
+                ", userFollowing=" + userFollowing +
                 '}';
     }
 }

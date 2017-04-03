@@ -1,5 +1,7 @@
 package com.fetherz.saim.twitterredux.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,9 +25,12 @@ import com.fetherz.saim.twitterredux.models.client.User;
 import com.fetherz.saim.twitterredux.models.utils.TweetsUtil;
 import com.fetherz.saim.twitterredux.services.TwitterClient;
 import com.fetherz.saim.twitterredux.utils.DynamicHeightImageView;
+import com.fetherz.saim.twitterredux.utils.GenericUtil;
 import com.fetherz.saim.twitterredux.utils.LogUtil;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +44,8 @@ import static com.fetherz.saim.twistertwit.R.id.ivBackDrop;
 
 public class UserProfileActivity extends AppCompatActivity implements UserTimelineFragment.OnFragmentInteractionListener,
 MediaFragment.OnFragmentInteractionListener, LikesFragment.OnFragmentInteractionListener{
+
+    public static final String EXTRA_TWEET_USER = "tweetUser";
 
     private static final String TAG = "UserProfileActivity" ;
 
@@ -76,11 +85,22 @@ MediaFragment.OnFragmentInteractionListener, LikesFragment.OnFragmentInteraction
     @BindView(R.id.tvFollowersCount)
     TextView mTvFollowersCount;
 
-    User mCurrentUser;
+    @BindView(R.id.btnEditProfile)
+    Button mBtnEditProfile;
+
+    @BindView(R.id.btnFollow)
+    ImageButton mBtnFollow;
+
+    User mSelectedUser;
 
     TwitterClient mTwitterClient;
 
     TextTabsAdapter mUserProfileTabAdapter;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, UserProfileActivity.class);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +114,16 @@ MediaFragment.OnFragmentInteractionListener, LikesFragment.OnFragmentInteraction
         //set up the toolbar as action bar
         setSupportActionBar(mToolbar);
 
-        setUser();
+        mSelectedUser = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_TWEET_USER));
+
+        if(mSelectedUser != null){
+            prepareFragments();
+            bindTabsToFragments();
+            populateUserProfile();
+        }
+        else { // this is unnecessary just using for testing and safety if the mCurrentUser is null
+            setUser();
+        }
     }
 
     private void bindTabsToFragments() {
@@ -110,10 +139,10 @@ MediaFragment.OnFragmentInteractionListener, LikesFragment.OnFragmentInteraction
     // Let's prepare Data for our Tabs - Fragments and Title List
     private void prepareFragments() {
 
-        addData(UserTimelineFragment.newInstance(mCurrentUser, true), getString(R.string.tweets_tab_text));
-        addData(UserTimelineFragment.newInstance(mCurrentUser, false), getString(R.string.tweets_and_replies_tab_text));
+        addData(UserTimelineFragment.newInstance(mSelectedUser, true), getString(R.string.tweets_tab_text));
+        addData(UserTimelineFragment.newInstance(mSelectedUser, false), getString(R.string.tweets_and_replies_tab_text));
         addData(new MediaFragment(), getString(R.string.media_tab_text));
-        addData(new LikesFragment(), getString(R.string.likes_tab_text));
+        addData(LikesFragment.newInstance(mSelectedUser), getString(R.string.likes_tab_text));
     }
 
     private void addData(Fragment fragment, String title) {
@@ -137,42 +166,54 @@ MediaFragment.OnFragmentInteractionListener, LikesFragment.OnFragmentInteraction
                 LogUtil.logI(TAG, responseString);
 
                 if (responseString != null) {
-                    mCurrentUser = TweetsUtil.getUserFromJson(responseString);
+                    mSelectedUser = TweetsUtil.getUserFromJson(responseString);
+
                     prepareFragments();
                     bindTabsToFragments();
+                    populateUserProfile();
 
-                    if(mCurrentUser != null) {
-                        if (mCurrentUser.getProfileBackgroundImageUrl() != null) {
-                            Picasso.with(UserProfileActivity.this).load(mCurrentUser.getProfileBackgroundImageUrl())
-                                    .into(mIvBackDrop);
-                        }
-
-                        Picasso.with(UserProfileActivity.this).load(mCurrentUser.getProfileImageUrl())
-                                .transform(new RoundedCornersTransformation(2,2))
-                                .placeholder(R.drawable.ic_photo)
-                                .error(R.drawable.ic_camera)
-                                .into(mIvUserProfilePicture);
-
-                        mTvUserName.setText(mCurrentUser.getName());
-
-                        if(mCurrentUser.isVerified()){
-                            mIvVerified.setVisibility(View.VISIBLE);
-                        }
-
-                        mTvUserScreenName.setText(mCurrentUser.getScreenName());
-
-                        mTvUserDescription.setText(mCurrentUser.getDescription());
-
-                        mTvFollowingCount.setText(Integer.toString(mCurrentUser.getFriendsCount()));
-
-                        mTvFollowersCount.setText(Integer.toString(mCurrentUser.getFollowersCount()));
-
-                    }
-
-                    LogUtil.logD(TAG, mCurrentUser.toString());
+                    LogUtil.logD(TAG, mSelectedUser.toString());
                 }
             }
         });
+    }
+
+    private void populateUserProfile() {
+        if(mSelectedUser != null) {
+            if (mSelectedUser.getProfileBackgroundImageUrl() != null) {
+                Picasso.with(UserProfileActivity.this).load(mSelectedUser.getProfileBackgroundImageUrl())
+                        .into(mIvBackDrop);
+            }
+
+            Picasso.with(UserProfileActivity.this).load(mSelectedUser.getProfileImageUrl())
+                    .transform(new RoundedCornersTransformation(2,2))
+                    .placeholder(R.drawable.ic_photo)
+                    .error(R.drawable.ic_camera)
+                    .into(mIvUserProfilePicture);
+
+            mTvUserName.setText(mSelectedUser.getName());
+
+            if(mSelectedUser.isVerified()){
+                mIvVerified.setVisibility(View.VISIBLE);
+            }
+
+            if(!GenericUtil.isMatch(mSelectedUser.getScreenName(), "@droidgeddon")){ //TODO: eliminate the hard code
+                mBtnEditProfile.setVisibility(View.GONE);
+                if(!mSelectedUser.isUserFollowing()){
+                    mBtnFollow.setBackgroundResource(R.drawable.btn_connect);
+                    mBtnFollow.setImageResource(R.drawable.ic_connect);
+                }
+                mBtnFollow.setVisibility(View.VISIBLE);
+            }
+
+            mTvUserScreenName.setText(mSelectedUser.getScreenName());
+
+            mTvUserDescription.setText(mSelectedUser.getDescription());
+
+            mTvFollowingCount.setText(Integer.toString(mSelectedUser.getFriendsCount()));
+
+            mTvFollowersCount.setText(Integer.toString(mSelectedUser.getFollowersCount()));
+        }
     }
 
     @Override

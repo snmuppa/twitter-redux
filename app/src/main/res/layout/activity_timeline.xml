@@ -20,14 +20,4 @@
 
     <include android:id="@+id/rvTimeline" layout="@layout/content_timeline" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabComposeTweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin_large"
-        android:clickable="true"
-        android:src="@drawable/ic_feather"
-        app:layout_anchor="@id/rvTimeline"
-        app:layout_anchorGravity="bottom|right|end"/>
-
 </android.support.design.widget.CoordinatorLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,13 +17,13 @@ import android.widget.TextView;
 
 import com.fetherz.saim.twistertwit.R;
 import com.fetherz.saim.twitterredux.application.TwitterApplication;
-import com.fetherz.saim.twitterredux.images.ImageLoaderImpl;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
 import com.fetherz.saim.twitterredux.models.utils.TweetsUtil;
 import com.fetherz.saim.twitterredux.services.TwitterClient;
 import com.fetherz.saim.twitterredux.utils.DynamicHeightImageView;
 import com.fetherz.saim.twitterredux.utils.LogUtil;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -30,15 +31,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-public class DetailTextActivity extends BaseActivity {
-    private static final String EXTRA_TWEET = "tweet";
+public class DetailActivity extends BaseActivity {
+    public static final String EXTRA_TWEET = "tweet";
 
     private static final String RETWEETED_TEXT = "retweeted";
-    private static final String TAG = "DetailTextActivity";
+    private static final String TAG = "DetailActivity";
 
     public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, DetailTextActivity.class);
+        Intent intent = new Intent(context, DetailActivity.class);
         return intent;
     }
 
@@ -53,6 +55,12 @@ public class DetailTextActivity extends BaseActivity {
 
     @BindView(R.id.ivProfilePicture)
     DynamicHeightImageView mIvProfilePicture;
+
+    @BindView(R.id.cvTweetImage)
+    CardView mCVTweetImageCardView;
+
+    @BindView(R.id.ivTweetImage)
+    DynamicHeightImageView mIvTweetImage;
 
     @BindView(R.id.tvUserName)
     TextView mTvUserName;
@@ -100,9 +108,9 @@ public class DetailTextActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_text);
+        setContentView(R.layout.activity_detail);
 
-        ButterKnife.bind(DetailTextActivity.this);
+        ButterKnife.bind(DetailActivity.this);
 
         mTwitterClient = TwitterApplication.getRestClient();
 
@@ -139,8 +147,23 @@ public class DetailTextActivity extends BaseActivity {
 
             mTvTweetText.setText(mTweet.getText());
 
-            ImageLoaderImpl imageLoader = new ImageLoaderImpl();
-            imageLoader.loadImage(mTweet.getUser().getProfileImageUrl(), mIvProfilePicture);
+            //ImageLoaderImpl imageLoader = new ImageLoaderImpl();
+            //imageLoader.loadImage(mTweet.getUser().getProfileImageUrl(), mIvProfilePicture);
+
+            Picasso.with(DetailActivity.this).load(mTweet.getUser().getProfileImageUrl())
+                    .transform(new RoundedCornersTransformation(2,2))
+                    .placeholder(R.drawable.ic_photo)
+                    .error(R.drawable.ic_photo)
+                    .into(mIvProfilePicture);
+
+            if(mTweet.getMediaUrl() != null && !mTweet.getMediaUrl().trim().isEmpty()){
+                mCVTweetImageCardView.setVisibility(View.VISIBLE);
+                Picasso.with(DetailActivity.this).load(mTweet.getMediaUrl())
+                        .transform(new RoundedCornersTransformation(10,10))
+                        .placeholder(R.drawable.ic_photo)
+                        .error(R.drawable.ic_camera)
+                        .into(mIvTweetImage);
+            }
 
             String screenName = mTweet.getUser().getScreenName();
 

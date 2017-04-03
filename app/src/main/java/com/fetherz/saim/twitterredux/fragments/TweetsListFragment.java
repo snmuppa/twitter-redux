@@ -138,4 +138,6 @@ public abstract class TweetsListFragment extends Fragment {
 
     // Abstract method to be overridden
     protected abstract void populateTimeline(long maxId);
+
+    public abstract void onRefreshTweets(Tweet tweet);
 }

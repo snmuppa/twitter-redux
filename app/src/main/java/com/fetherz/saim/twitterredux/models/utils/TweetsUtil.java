@@ -28,6 +28,7 @@ public class TweetsUtil {
 
         Gson gson = gsonBuilder.create();
         List<com.fetherz.saim.twitterredux.models.service.twitter.Tweet> serviceTweets;
+
         serviceTweets = gson.fromJson(jsonResponseString,
                 new TypeToken<List<com.fetherz.saim.twitterredux.models.service.twitter.Tweet>>(){}.getType());
 
@@ -124,6 +125,7 @@ public class TweetsUtil {
                     .setStatusesCount(serviceUser.getStatusesCount())
                     .setProfileBackgroundColor(serviceUser.getProfileBackgroundColor())
                     .setProfileBackgroundImageUrl(serviceUser.getProfileBackgroundImageUrl())
+                    .setUserFollowing(serviceUser.getUserFollowing())
                     .createUser();
         }
 

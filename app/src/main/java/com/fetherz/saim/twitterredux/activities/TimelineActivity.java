@@ -1,10 +1,9 @@
 package com.fetherz.saim.twitterredux.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,26 +13,24 @@ import com.fetherz.saim.twistertwit.R;
 import com.fetherz.saim.twitterredux.adapters.TimelineRecyclerViewAdapter;
 import com.fetherz.saim.twitterredux.application.TwitterApplication;
 import com.fetherz.saim.twitterredux.eventlisteners.EndlessRecyclerViewScrollListener;
-import com.fetherz.saim.twitterredux.fragments.ComposeTweetFragment;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
-import com.fetherz.saim.twitterredux.models.client.User;
 import com.fetherz.saim.twitterredux.models.utils.TweetsUtil;
 import com.fetherz.saim.twitterredux.services.TwitterClient;
 import com.fetherz.saim.twitterredux.utils.LogUtil;
-import com.loopj.android.http.TextHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.parceler.Parcels;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends BaseActivity
-        implements ComposeTweetFragment.ComposeTweetListener {
+public class TimelineActivity extends BaseActivity {
 
     private static final String EXTRA_TWEET = "tweet";
     @BindView(R.id.toolbar)
@@ -48,8 +45,9 @@ public class TimelineActivity extends BaseActivity
     @BindView(R.id.srContainer)
     SwipeRefreshLayout mSwipeContainer;
 
-    @BindView(R.id.fabComposeTweet)
-    FloatingActionButton mFabComposeTweet;
+    private String mSearchQuery;
+
+    public static final String EXTRA_SEARCH_QUERY = "searchQuery";
 
     static final String TAG = "TimelineActivity";
     static final short START_PAGE = 1;
@@ -60,7 +58,12 @@ public class TimelineActivity extends BaseActivity
     TimelineRecyclerViewAdapter mTimelineRecyclerViewAdapter;
     EndlessRecyclerViewScrollListener mEndlessRecyclerViewScrollListener;
     LinearLayoutManager mLinearLayoutManager;
-    User mCurrentUser;
+
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, TimelineActivity.class);
+        return intent;
+    }
 
     /**
      * On Create event in the android event life cycle
@@ -72,36 +75,13 @@ public class TimelineActivity extends BaseActivity
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(TimelineActivity.this);
 
+        mSearchQuery = getIntent().getStringExtra(EXTRA_SEARCH_QUERY);
+
         mTwitterClient = TwitterApplication.getRestClient();
 
         initializeViews();
 
-        setUser();
         populateTimeline(START_PAGE);
-    }
-
-    /**
-     * Sets the current user in the local cache
-     */
-    private void setUser() {
-        mTwitterClient.getUser(new TextHttpResponseHandler(){
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                LogUtil.logE(TAG, "Http request failure with status code: " + statusCode + ". " + throwable.getMessage(), throwable);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                LogUtil.logI(TAG, responseString);
-
-                if(responseString != null) {
-                    mCurrentUser = TweetsUtil.getUserFromJson(responseString);
-
-                    LogUtil.logD(TAG, mCurrentUser.toString());
-                }
-            }
-        });
     }
 
     /**
@@ -152,58 +132,6 @@ public class TimelineActivity extends BaseActivity
     }
 
     /**
-     * Creates the options menu
-     * @param menu
-     * @return
-     */
-    /**@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_timeline, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
-    /**
-     * Sets up actions for menu items
-     * @param item
-     * @return
-     */
-    /**@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.compose_settings) {
-            showCompose();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }**/
-
-
-    /**
-     * On float action button click show tweet composer
-     */
-    @OnClick(R.id.fabComposeTweet)
-    public void onComposeClick(){
-        showCompose();
-    }
-
-    /**
-     * Show's the tweet compose overlay dialog fragment
-     */
-    private void showCompose() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance(mCurrentUser);
-        composeTweetFragment.show(fragmentManager, "Tweet_Away");
-    }
-
-    /**
      * Set's up the swipe refresh layout for the tweets time line
      */
     private void setSwipeRefreshContainer() {
@@ -236,8 +164,7 @@ public class TimelineActivity extends BaseActivity
      * @param pageId
      */
     private void populateTimeline(long pageId) {
-
-        mTwitterClient.getHomeTimeLine(pageId, new TextHttpResponseHandler(){
+        mTwitterClient.searchTweets(mSearchQuery, pageId, new JsonHttpResponseHandler(){
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -245,16 +172,25 @@ public class TimelineActivity extends BaseActivity
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                LogUtil.logI(TAG, responseString);
+            public void onSuccess(int statusCode, Header[] headers, JSONObject responseObject) {
+                LogUtil.logI(TAG, String.valueOf(responseObject));
 
-                if(responseString != null) {
-                    List<Tweet> tweets = TweetsUtil.getTweetsFromJson(responseString);
+                if(responseObject != null) {
+                    JSONArray jsonArray = null;
+                    try {
+                        jsonArray = responseObject.getJSONArray("statuses");
+                    } catch (JSONException e) {
+                        LogUtil.logE(TAG, e.getMessage(), e);
+                    }
 
-                    if (tweets != null) {
-                        int currSize = mTimelineRecyclerViewAdapter.getItemCount();
-                        mTweets.addAll(tweets);
-                        mTimelineRecyclerViewAdapter.notifyItemRangeInserted(currSize, mTweets.size() - 1);
+                    if(jsonArray != null) {
+                        List<Tweet> tweets = TweetsUtil.getTweetsFromJson(String.valueOf(jsonArray));
+
+                        if (tweets != null) {
+                            int currSize = mTimelineRecyclerViewAdapter.getItemCount();
+                            mTweets.addAll(tweets);
+                            mTimelineRecyclerViewAdapter.notifyItemRangeInserted(currSize, mTweets.size() - 1);
+                        }
                     }
 
                     // Now we call setRefreshing(false) to signal refresh has finished
@@ -273,28 +209,5 @@ public class TimelineActivity extends BaseActivity
         mTimelineRecyclerViewAdapter.clear();
         // 3. Reset endless scroll listener when performing a new search
         mEndlessRecyclerViewScrollListener.resetState();
-    }
-
-    /**
-     * On tweet success add the tweet to the 0th location and notify adapter and scroll into view
-     * @param tweet
-     */
-    @Override
-    public void onTweetSuccess(Tweet tweet) {
-        mTweets.add(0, tweet);
-        mTimelineRecyclerViewAdapter.notifyItemRangeInserted(0, 1);
-        mLinearLayoutManager.scrollToPosition(0);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtil.logI(TAG, "ON activity result");
-
-        if (resultCode == RESULT_OK && requestCode == 200) {
-            // Extract name value from result extras
-            Tweet tweet = Parcels.unwrap(data.getParcelableExtra(EXTRA_TWEET));
-
-            onTweetSuccess(tweet);
-        }
     }
 }

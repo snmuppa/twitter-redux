@@ -9,6 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fetherz.saim.twistertwit.R;
+import com.fetherz.saim.twitterredux.models.client.Tweet;
+import com.fetherz.saim.twitterredux.models.client.User;
+import com.fetherz.saim.twitterredux.models.utils.TweetsUtil;
+import com.fetherz.saim.twitterredux.utils.LogUtil;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.parceler.Parcels;
+
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import cz.msebera.android.httpclient.Header;
 
 
 /**
@@ -19,54 +32,103 @@ import com.fetherz.saim.twistertwit.R;
  * Use the {@link LikesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LikesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+public class LikesFragment extends TweetsListFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_CURRENT_USER = "currentUser";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    User mCurrentUser;
+    View mCurrentView;
+
+    private Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
 
     public LikesFragment() {
         // Required empty public constructor
+
+        LogUtil.logI("Fragment Check", "LikesFragment");
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LikesFragment.
+     * @param currentUser
+     * @return
      */
-    // TODO: Rename and change types and number of parameters
-    public static LikesFragment newInstance(String param1, String param2) {
-        LikesFragment fragment = new LikesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static LikesFragment newInstance(User currentUser){
+        LikesFragment likesFragment = new LikesFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ARG_CURRENT_USER, Parcels.wrap(currentUser));
+
+        likesFragment.setArguments(bundle);
+        return likesFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mCurrentUser = Parcels.unwrap(getArguments().getParcelable(ARG_CURRENT_USER));
+    }
+
+    @Override
+    protected void populateTimeline(long pageId) {
+
+        pageId = getTwitterPageId(pageId);
+
+        mTwitterClient.setGetFavoriteTweets(pageId, new TextHttpResponseHandler(){
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                LogUtil.logE(TAG, "Http request failure with status code: " + statusCode + ". " + throwable.getMessage(), throwable);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                LogUtil.logI(TAG, responseString);
+
+                if(responseString != null) {
+                    List<Tweet> tweets = TweetsUtil.getTweetsFromJson(responseString);
+
+                    if (tweets != null) {
+                        int currSize = mTimelineRecyclerViewAdapter.getItemCount();
+                        mTweets.addAll(tweets);
+                        mTimelineRecyclerViewAdapter.notifyItemRangeInserted(currSize, mTweets.size() - 1);
+                    }
+
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    mSwipeContainer.setRefreshing(false);
+
+                    LogUtil.logD(TAG, mTweets.toString());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRefreshTweets(Tweet tweet) {
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_likes, container, false);
+        View view = inflater.inflate(R.layout.fragment_likes, container, false);
+        mCurrentView = view;
+
+        unbinder = ButterKnife.bind(this, view);
+
+        setTimelineRecyclerView();
+
+        setSwipeRefreshContainer();
+
+        populateTimeline(START_PAGE);
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

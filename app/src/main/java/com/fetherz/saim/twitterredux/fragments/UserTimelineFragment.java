@@ -110,6 +110,11 @@ public class UserTimelineFragment extends TweetsListFragment {
     }
 
     @Override
+    public void onRefreshTweets(Tweet tweet) {
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);

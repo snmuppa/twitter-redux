@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fetherz.saim.twistertwit.R;
-import com.fetherz.saim.twitterredux.activities.DetailTextActivity;
+import com.fetherz.saim.twitterredux.activities.DetailActivity;
+import com.fetherz.saim.twitterredux.activities.UserProfileActivity;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
 import com.fetherz.saim.twitterredux.utils.DynamicHeightImageView;
 
@@ -22,6 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.fetherz.saim.twistertwit.R.id.ivProfilePicture;
 import static com.loopj.android.http.AsyncHttpClient.LOG_TAG;
 
 /**
@@ -38,7 +40,7 @@ public class TextTweetViewHolder extends RecyclerView.ViewHolder
     @BindView(R.id.tvRetweetedUserName)
     TextView mTvRetweetedUserName;
 
-    @BindView(R.id.ivProfilePicture)
+    @BindView(ivProfilePicture)
     DynamicHeightImageView mIvProfilePicture;
 
     @BindView(R.id.tvUserName)
@@ -78,8 +80,10 @@ public class TextTweetViewHolder extends RecyclerView.ViewHolder
     public TextTweetViewHolder(Context context, View itemView, List<Tweet> tweets) {
         super(itemView);
 
-        itemView.setOnClickListener(this);
         ButterKnife.bind(this, itemView);
+
+        itemView.setOnClickListener(this);
+        mIvProfilePicture.setOnClickListener(this);
 
         mTweets = tweets;
         mContext = context;
@@ -90,13 +94,19 @@ public class TextTweetViewHolder extends RecyclerView.ViewHolder
         int position = getLayoutPosition();
         Tweet tweet = mTweets.get(position);
 
-        Intent intent = new Intent(mContext, DetailTextActivity.class);
-        intent.putExtra("tweet", Parcels.wrap(tweet));
-        ((Activity)mContext).startActivityForResult(intent, REQUEST_CODE, new Bundle());
+        if (v instanceof ImageView) {
+            Intent intent = UserProfileActivity.newIntent(mContext);
+            intent.putExtra(UserProfileActivity.EXTRA_TWEET_USER, Parcels.wrap(tweet.getUser()));
+            mContext.startActivity(intent);
 
-        //Intent intent = DetailTextActivity.newIntent(mContext);
-        //intent.putExtra("tweet", Parcels.wrap(tweet));
-        //mContext.startActivity(intent);
-        Log.d(LOG_TAG, "Tweet selected: " + tweet);
+            Log.d(LOG_TAG, "Profile Image Selected, for user: " + tweet.getUser());
+        }
+        else {
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtra(DetailActivity.EXTRA_TWEET, Parcels.wrap(tweet));
+            ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE, new Bundle());
+
+            Log.d(LOG_TAG, "Tweet selected: " + tweet);
+        }
     }
 }

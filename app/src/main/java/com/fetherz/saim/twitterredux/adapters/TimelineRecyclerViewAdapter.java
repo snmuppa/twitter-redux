@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fetherz.saim.twistertwit.R;
-import com.fetherz.saim.twitterredux.images.ImageLoaderImpl;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
 import com.squareup.picasso.Picasso;
 
@@ -137,8 +136,14 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             viewHolder.mTvTweetText.setText(tweet.getText());
 
-            ImageLoaderImpl imageLoader = new ImageLoaderImpl();
-            imageLoader.loadImage(tweet.getUser().getProfileImageUrl(), viewHolder.mIvProfilePicture);
+            //ImageLoaderImpl imageLoader = new ImageLoaderImpl();
+            //imageLoader.loadImage(tweet.getUser().getProfileImageUrl(), viewHolder.mIvProfilePicture);
+
+            Picasso.with(mContext).load(tweet.getUser().getProfileImageUrl())
+                    .transform(new RoundedCornersTransformation(2,2))
+                    .placeholder(R.drawable.ic_photo)
+                    .error(R.drawable.ic_photo)
+                    .into(viewHolder.mIvProfilePicture);
 
             viewHolder.mTvScreenName.setText(tweet.getUser().getScreenName());
             viewHolder.mTvRelativeTime.setText(tweet.getCreatedAt());
@@ -191,7 +196,7 @@ public class TimelineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             //imageLoader.loadImage(tweet.getUser().getProfileImageUrl(), viewHolder.mIvProfilePicture);
 
             Picasso.with(mContext).load(tweet.getUser().getProfileImageUrl())
-                    .transform(new RoundedCornersTransformation(10,10))
+                    .transform(new RoundedCornersTransformation(2,2))
                     .placeholder(R.drawable.ic_photo)
                     .error(R.drawable.ic_photo)
                     .into(viewHolder.mIvProfilePicture);

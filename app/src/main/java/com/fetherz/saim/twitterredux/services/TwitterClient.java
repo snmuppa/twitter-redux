@@ -59,6 +59,9 @@ public class TwitterClient extends OAuthBaseClient {
     private static final String QUERY_PARAM_TEXT = "text";
 
     private static final String QUERY_PARAM_EXCLUDE_REPLIES = "exclude_replies";
+    private static final String QUERY_PARAM_INCLUDE_RETWEETS = "include_rts";
+    private static final String QUERY_PARAM_SEARCH = "q";
+    private static final String GET_SEARCH_URL = "search/tweets.json";
 
     public TwitterClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -120,6 +123,18 @@ public class TwitterClient extends OAuthBaseClient {
         params.put(QUERY_PARAM_STATUS, text);
 
         getClient().post(apiUrl, params, asyncHttpResponseHandler);
+    }
+
+    public void searchTweets(String searchQuery, long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+        String api_url = getApiUrl(GET_SEARCH_URL);
+        RequestParams params = new RequestParams();
+        params.put(QUERY_PARAM_SEARCH, searchQuery);
+        params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
+        if (pageId == 1)
+            params.put(QUERY_PARAM_SINCE_ID, 1);
+        else
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
+        getClient().get(api_url, params, asyncHttpResponseHandler);
     }
 
     public void replyToStatus(String text, String replyToStatusId, AsyncHttpResponseHandler asyncHttpResponseHandler){
@@ -203,6 +218,20 @@ public class TwitterClient extends OAuthBaseClient {
             params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         }
 
+        getClient().get(apiUrl, params, asyncHttpResponseHandler);
+    }
+
+    public void getUserMedia(String screenName, long pageId, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+        String apiUrl = getApiUrl(GET_USER_TIMELINE);
+        RequestParams params = new RequestParams();
+        params.put(QUERY_PARAM_COUNT, TWEET_COUNT);
+        params.put(QUERY_PARAM_SCREEN_NAME, screenName);
+        params.put(QUERY_PARAM_EXCLUDE_REPLIES, "true");
+        params.put(QUERY_PARAM_INCLUDE_RETWEETS, "false");
+        if (pageId == 1)
+            params.put(QUERY_PARAM_SINCE_ID, 1);
+        else
+            params.put(QUERY_PARAM_MAX_ID, pageId - 1);
         getClient().get(apiUrl, params, asyncHttpResponseHandler);
     }
 

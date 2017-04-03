@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.fetherz.saim.twistertwit.R;
 import com.fetherz.saim.twitterredux.application.TwitterApplication;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
@@ -29,6 +28,7 @@ import com.fetherz.saim.twitterredux.services.TwitterClient;
 import com.fetherz.saim.twitterredux.utils.DynamicHeightImageView;
 import com.fetherz.saim.twitterredux.utils.LogUtil;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /**
  * A simple {@link DialogFragment} subclass.
@@ -115,7 +116,6 @@ public class ComposeTweetFragment extends DialogFragment {
         return view;
     }
 
-
     @Override
     public void onViewCreated(View  view, Bundle savedInstance){
         mCurrentUser = Parcels.unwrap(getArguments().getParcelable("currentUser"));
@@ -130,10 +130,16 @@ public class ComposeTweetFragment extends DialogFragment {
      */
     private void setProfileImage() {
         if(mCurrentUser!= null && mCurrentUser.getProfileImageUrl() != null) {
-            Glide.with(getContext()).load(mCurrentUser.getProfileImageUrl())
+            //Glide.with(getContext()).load(mCurrentUser.getProfileImageUrl())
+            //        .placeholder(R.drawable.ic_photo)
+            //        .error(R.drawable.ic_camera)
+            //        .fitCenter()
+            //        .into(mIvComposeUserProfilePicture);
+
+            Picasso.with(getContext()).load(mCurrentUser.getProfileImageUrl())
+                    .transform(new RoundedCornersTransformation(2,2))
                     .placeholder(R.drawable.ic_photo)
                     .error(R.drawable.ic_camera)
-                    .fitCenter()
                     .into(mIvComposeUserProfilePicture);
         }
     }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginBottom="@dimen/card_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="@dimen/card_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.fetherz.saim.twitterredux.activities.DetailTextActivity">
+    tools:context="com.fetherz.saim.twitterredux.activities.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/ablToolbar"
@@ -28,6 +29,26 @@
             layout="@layout/tweet_content_base"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvTweetImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/ic_margin_medium"
+            app:cardCornerRadius="@dimen/card_radius"
+            android:visibility="gone">
+
+            <com.fetherz.saim.twitterredux.utils.DynamicHeightImageView
+                android:id="@+id/ivTweetImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:maxHeight="@dimen/detail_backdrop_height"
+                android:scaleType="fitXY"
+                tools:src="@drawable/city_night_lights" />
+        </android.support.v7.widget.CardView>
 
         <include layout="@layout/tweet_footer"/>
 

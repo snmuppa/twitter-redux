@@ -12,6 +12,7 @@ import com.fetherz.saim.twistertwit.R;
 import com.fetherz.saim.twitterredux.models.client.Tweet;
 import com.fetherz.saim.twitterredux.models.client.User;
 import com.fetherz.saim.twitterredux.models.utils.TweetsUtil;
+import com.fetherz.saim.twitterredux.utils.GenericUtil;
 import com.fetherz.saim.twitterredux.utils.LogUtil;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -102,6 +103,15 @@ public class MomentsFragment extends TweetsListFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onRefreshTweets(Tweet tweet) {
+        if(tweet != null && tweet.getUser() != null && GenericUtil.isMatch(tweet.getText(), tweet.getUser().getScreenName())) { //add only current user mentioned tweets
+            mTweets.add(0, tweet);
+            mTimelineRecyclerViewAdapter.notifyItemRangeInserted(0, 1);
+            mLinearLayoutManager.scrollToPosition(0);
+        }
     }
 
     @Override

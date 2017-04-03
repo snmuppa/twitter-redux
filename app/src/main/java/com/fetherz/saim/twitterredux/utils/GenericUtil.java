@@ -38,4 +38,12 @@ public class GenericUtil {
 
         return relativeDate;
     }
+
+    public static boolean isMatch(String input, String search){
+        if(input != null && search != null){
+            String regex = String.format("(?i:.*%s.*)", search);
+            return input.matches(regex);
+        }
+        return false;
+    }
 }

@@ -27,6 +27,7 @@ public class User {
         private int statusesCount;
         private String profileBackgroundColor;
         private String profileBackgroundImageUrl;
+        private boolean userFollowing;
 
         public UserBuilder(long userId){
             this.userId = userId;
@@ -107,10 +108,15 @@ public class User {
             return this;
         }
 
+        public UserBuilder setUserFollowing(boolean userFollowing){
+            this.userFollowing = userFollowing;
+            return this;
+        }
+
         public User createUser() {
             return new User(userId, userIdString, name, screenName, profileImageUrl, location, description, followersCount,
                     friendsCount, listedCount, createdAt, favouritesCount, verified, statusesCount, profileBackgroundColor,
-                    profileBackgroundImageUrl);
+                    profileBackgroundImageUrl, userFollowing);
         }
     }
 
@@ -146,11 +152,13 @@ public class User {
 
     String profileBackgroundImageUrl;
 
+    boolean userFollowing;
+
     public User() { }
 
     private User(long userId, String userIdString, String name, String screenName, String profileImageUrl,
                  String location, String description, int followersCount, int friendsCount, int listedCount, String createdAt,
-                 int favouritesCount, boolean verified, int statusesCount, String profileBackgroundColor, String profileBackgroundImageUrl) {
+                 int favouritesCount, boolean verified, int statusesCount, String profileBackgroundColor, String profileBackgroundImageUrl, boolean userFollowing) {
         this.userId = userId;
         this.userIdString = userIdString;
         this.name = name;
@@ -167,6 +175,7 @@ public class User {
         this.statusesCount = statusesCount;
         this.profileBackgroundColor = profileBackgroundColor;
         this.profileBackgroundImageUrl =profileBackgroundImageUrl;
+        this.userFollowing = userFollowing;
     }
 
     public long getUserId() {
@@ -233,6 +242,10 @@ public class User {
         return profileBackgroundImageUrl;
     }
 
+    public boolean isUserFollowing() {
+        return userFollowing;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -252,6 +265,7 @@ public class User {
                 ", statusesCount=" + statusesCount +
                 ", profileBackgroundColor='" + profileBackgroundColor + '\'' +
                 ", profileBackgroundImageUrl='" + profileBackgroundImageUrl + '\'' +
+                ", userFollowing=" + userFollowing +
                 '}';
     }
 }

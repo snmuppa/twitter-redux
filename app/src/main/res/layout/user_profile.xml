@@ -149,4 +149,19 @@
         android:layout_alignTop="@+id/tvUserName"
         android:layout_above="@+id/tvUserDescription" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFollow"
+        android:layout_marginRight="@dimen/text_margin_large"
+        android:layout_alignParentRight="true"
+        android:src = "@drawable/ic_following"
+        android:paddingLeft="@dimen/text_margin_large"
+        android:paddingRight="@dimen/text_margin_large"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tvUserName"
+        android:background="@drawable/btn_edit_profile"
+        android:layout_above="@+id/tvUserDescription"
+        android:visibility="gone"/>
+
 </RelativeLayout>
